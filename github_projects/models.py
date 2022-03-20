@@ -20,3 +20,9 @@ class ProjectEntry(models.Model):
 
     def __str__(self) -> str:
         return f'{super().__str__()}: {self.name}'
+
+
+class WebhookConfig(models.Model):
+    url = models.URLField()
+    method = models.CharField(max_length=7, choices=(('GET', 'GET'), ('POST', 'POST')))
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
