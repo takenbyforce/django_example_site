@@ -11,7 +11,7 @@ class IsObjectOwner(BasePermission):
 
 
 class ProjectEntryViewSet(viewsets.ModelViewSet):
-    queryset = ProjectEntry.objects.all()
+    queryset = ProjectEntry.objects.all().order_by('id')
     serializer_class = ProjectEntrySerializer
 
     def get_permissions(self):
