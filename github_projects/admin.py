@@ -1,4 +1,5 @@
 from django.contrib import admin
+from rest_framework.authtoken.admin import TokenAdmin
 
 from .models import ProjectEntry
 
@@ -15,3 +16,5 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ProjectEntry, ProjectAdmin)
+
+TokenAdmin.autocomplete_fields = ('user',)
