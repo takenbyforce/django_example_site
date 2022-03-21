@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated, BasePermission
 
 from .models import ProjectEntry, WebhookConfig
 from .serializers import ProjectSerializer, WebhookSerializer
+from .tasks import invoke_all_webhooks
 
 
 class IsObjectOwner(BasePermission):
@@ -22,6 +23,10 @@ class BasePermissionViewSet(viewsets.ModelViewSet):
 class ProjectEntryViewSet(BasePermissionViewSet):
     queryset = ProjectEntry.objects.all().order_by('id')
     serializer_class = ProjectSerializer
+
+    def perform_create(self, serializer) -> None:
+        data = serializer.save()
+        invoke_all_webhooks.apply_async(args=(data.pk,))
 
 
 class WebhookConfigViewSet(BasePermissionViewSet):
