@@ -17,6 +17,7 @@ class ProjectEntry(models.Model):
     link = models.URLField()
     rating = models.PositiveSmallIntegerField(choices=Rating.choices, blank=False, default=Rating.FIVE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    create_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f'{super().__str__()}: {self.name}'

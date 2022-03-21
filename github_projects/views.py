@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, BasePermission
+from rest_framework.filters import OrderingFilter
 
 from .models import ProjectEntry, WebhookConfig
 from .serializers import ProjectSerializer, WebhookSerializer
@@ -23,6 +24,8 @@ class BasePermissionViewSet(viewsets.ModelViewSet):
 class ProjectEntryViewSet(BasePermissionViewSet):
     queryset = ProjectEntry.objects.all().order_by('id')
     serializer_class = ProjectSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ('rating', 'create_time')
 
     def perform_create(self, serializer) -> None:
         data = serializer.save()
