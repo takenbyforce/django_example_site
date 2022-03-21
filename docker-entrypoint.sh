@@ -17,9 +17,9 @@ if [ "$PROCESS_TYPE" = "server" ]; then
 elif [ "$PROCESS_TYPE" = "flower" ]; then
     celery \
         -A django_example_site \
+        --broker="${CELERY_BROKER}" \
         flower \
-        -l INFO \
-        --broker="${CELERY_BROKER}"
+        -l INFO
 elif [ "$PROCESS_TYPE" = "worker" ]; then
     celery \
         -A django_example_site \
